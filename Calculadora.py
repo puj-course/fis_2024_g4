@@ -5,8 +5,8 @@ from math import sqrt
 
 # Conectar a la base de datos
 client = MongoClient('mongodb+srv://aiurbinamox:123@proyecto.1lqlm.mongodb.net/')
-db = client['Proyecto']  # Cambia 'tu_base_de_datos' por el nombre de tu base de datos
-pokemon_collection = db['Pokemon']  # Cambia 'tu_coleccion_pokemon' por el nombre de tu colección
+db = client['Proyecto']  
+pokemon_collection = db['Pokemon'] 
 
 # Constantes
 print("Bienvenido al Simulador")
@@ -34,7 +34,6 @@ def tipo(x):
 def stats(pokemon_name):
     pokemon = pokemon_collection.find_one({"Name": pokemon_name.lower()})  # Buscar por nombre
     if pokemon:
-        # Asegúrate de que los movimientos se dividan correctamente
         return [
             pokemon['Name'],
             pokemon['Type'],
