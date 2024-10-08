@@ -2,6 +2,13 @@ from pymongo import MongoClient
 from moves import get_move
 import random
 from math import sqrt
+from twilio.rest import Client
+
+# Configuración de Twilio
+ACCOUNT_SID = ''#vacio por que no me deja hacer commit si no
+AUTH_TOKEN = ''
+TWILIO_PHONE_NUMBER = ''
+twilio_client = Client(ACCOUNT_SID, AUTH_TOKEN)
 
 # Conectar a la base de datos
 client = MongoClient('mongodb+srv://aiurbinamox:123@proyecto.1lqlm.mongodb.net/')
@@ -158,6 +165,7 @@ class Usuario:
         self.correo = correo
         self.contrasena = contrasena
         self.numero_telefono = numero_telefono
+        self.twilio_client = twilio_client
 
     def crear_usuario(self):
         if usuarios_collection.find_one({"nombre": self.nombre}):
@@ -171,6 +179,21 @@ class Usuario:
         }
         usuarios_collection.insert_one(nuevo_usuario)
         print("Usuario creado exitosamente.")
+        
+        # Enviar mensaje de texto
+        #self.enviar_mensaje()
+#Necesito agregar el numero a los verified caller ID en twilio para que se pueda enviar el mensaje
+    def enviar_mensaje(self):
+        try:
+            message = self.twilio_client.messages.create(
+                body="¡Cuenta creada correctamente! Bienvenido.",
+                from_=TWILIO_PHONE_NUMBER,  
+                to=self.numero_telefono  
+            )
+            print(f"Mensaje enviado con éxito: {message.sid}")
+        except Exception as e:
+            print(f"Error al enviar el mensaje: {e}")
+
 
     @staticmethod
     def modificar_usuario(nombre_usuario):
@@ -235,6 +258,7 @@ def menu_principal():
                     print("\nMenu de Usuario:")
                     print("1. Modificar Usuario")
                     print("2. Eliminar Usuario")
+                    print("3. Simular Batalla")
                     print("0. Salir al Menu Principal")
 
                     opcion_usuario = input("Seleccione una opción: ")
@@ -246,6 +270,8 @@ def menu_principal():
                         Usuario.eliminar_usuario(nombre_usuario)
                         break
                     elif opcion_usuario == "3":
+                        simular()
+                    elif opcion_usuario == "0":
                         break
                     else:
                         print("Opción inválida.")
