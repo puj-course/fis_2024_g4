@@ -5,7 +5,7 @@ from pokemon import Pokemon
 from bd import *
 import os
 
-efectividades = os.path.join(os.path.dirname(__file__), '..', 'jupyter', 'datasets', 'tabla_efectividad.csv')
+efectividades = os.path.join(os.path.dirname(__file__), '..', '..', 'jupyter', 'datasets', 'tabla_efectividad.csv')
 lvl = 50
 EV = 250
 IV = 31
