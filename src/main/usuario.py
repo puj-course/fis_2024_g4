@@ -16,7 +16,7 @@ class Usuario:
         self.twilio_client = twilio_client
 
     def crear_usuario(self):
-        if usuarios_collection.find_one({"nombre": self.nombre}):
+        if usuarios_collection.find_one({"nombre": self.nombre}):#verifica que un usuario igual no exista
             print("El usuario ya existe.")
             return
         nuevo_usuario = {
@@ -25,7 +25,7 @@ class Usuario:
             "contrasena": self.contrasena,
             "numero_telefono": self.numero_telefono
         }
-        usuarios_collection.insert_one(nuevo_usuario)
+        usuarios_collection.insert_one(nuevo_usuario)#crea el nuevo usuario en la BD
         print("Usuario creado exitosamente.")
         
         # Enviar mensaje de texto
@@ -37,7 +37,7 @@ class Usuario:
                 body="¡Cuenta creada correctamente! Bienvenido.",
                 from_=TWILIO_PHONE_NUMBER,  
                 to=self.numero_telefono  
-            )
+            )#creacion del cuerpo del mensaje, destinatario y enviante
             print(f"Mensaje enviado con éxito: {message.sid}")
         except Exception as e:
             print(f"Error al enviar el mensaje: {e}")
@@ -61,8 +61,8 @@ class Usuario:
             cambios["contrasena"] = nueva_contrasena
 
         if cambios:
-            usuarios_collection.update_one({"nombre": nombre_usuario}, {"$set": cambios})
-            if "nombre" in cambios:  # Si el nombre fue cambiado
+            usuarios_collection.update_one({"nombre": nombre_usuario}, {"$set": cambios})#realiza los cambios en la BD
+            if "nombre" in cambios:  # Si el nombre fue cambiado flagea la funcion como verdadera
                return True 
             print("Usuario modificado exitosamente.")
 
@@ -75,10 +75,10 @@ class Usuario:
     def iniciar_sesion():
         nombre = input("Ingrese su nombre de usuario: ")
         contrasena = input("Ingrese su contraseña: ")
-        usuario = usuarios_collection.find_one({"nombre": nombre, "contrasena": contrasena})
+        usuario = usuarios_collection.find_one({"nombre": nombre, "contrasena": contrasena})#busca si un usuario en la BD cumple con las condiciones
         if usuario:
             print("Inicio de sesión exitoso.")
-            return nombre
+            return nombre #guarda el nombre para usarlo en las funciones relacionadas
         else:
             print("Nombre de usuario o contraseña incorrectos.")
             return None

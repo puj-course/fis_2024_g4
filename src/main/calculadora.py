@@ -4,7 +4,7 @@ from math import sqrt
 from pokemon import Pokemon
 from bd import *
 import os
-
+#constantes
 efectividades = os.path.join(os.path.dirname(__file__), '..', '..', 'jupyter', 'datasets', 'tabla_efectividad.csv')
 lvl = 50
 EV = 250
@@ -24,7 +24,7 @@ def tipo(x):
             num = line
     return num
 
-# Calcular cuales serán los stats después de los modificadores
+# Calcular cuales serán los stats después de los modificadores 
 def stat(pokemon):
     HP = (pokemon.stats()['HP'])
     HP = int((((((int(HP) + IV) * 2 + (sqrt(EV) / 4)) * lvl) / 100) + lvl + 10))
@@ -79,12 +79,12 @@ def simular():
     if pokemon_y.stats() is None:
         print("Pokémon inválido")
     else:
-        print("Nombre del Pokémon seleccionado: ", y.capitalize())  # Cambiado para usar capitalize()
+        print("Nombre del Pokémon seleccionado: ", y.capitalize())  
         print("Estadísticas base del Pokémon: ", "\n", " - HP = ", pokemon_y.stats()['HP'], "\n", " - Ataque = ", pokemon_y.stats()['ATK'], "\n", " - Defensa = ", pokemon_y.stats()['DEF'], "\n",
               " - Ataque especial = ", pokemon_y.stats()['SPA'], "\n", " - Defensa Especial = ", pokemon_y.stats()['SPD'], "\n", " - Velocidad = ", pokemon_y.stats()['SPE'])
         print("Movimientos que puede aprender el Pokémon:")
         i = 0
-        while i < len(mostrar_movimientos(pokemon_y)):
+        while i < len(mostrar_movimientos(pokemon_y)):#muestra la lista de movimientos
             print(i, " - ", mostrar_movimientos(pokemon_y)[i])
             i += 1
         move = int(input("Seleccione movimiento a ejecutar: "))
@@ -93,7 +93,7 @@ def simular():
         if detener is True:
             print("Movimiento inválido")
         else:
-            while get_move(mostrar_movimientos(pokemon_y)[move])[1] == 0:
+            while get_move(mostrar_movimientos(pokemon_y)[move])[1] == 0:#se selecciono un movimiento no ofensivo
                 move = int(input("No se puede calcular el daño ingrese otro movimiento: "))
                 if move >= len(mostrar_movimientos(pokemon_y)):
                     detener = True
@@ -114,8 +114,8 @@ def simular():
                 if pokemon_z.stats() is None:
                     print("Pokémon inválido")
                 else:
-                    roll = dano(move, pokemon_y, pokemon_z)
-                    print("Nombre del Pokémon seleccionado: ", z.capitalize())  # Cambiado para usar capitalize()
+                    roll = dano(move, pokemon_y, pokemon_z)#se crea un unico roll para poder hacer los calculos de daño y vida restante correctamente 
+                    print("Nombre del Pokémon seleccionado: ", z.capitalize())  
                     print("El HP al nivel ", lvl, "de", z.capitalize(), "es", stat(pokemon_z)[0])
                     print("El daño infligido por ", y.capitalize(), "es: ", roll)
                     print("La vida restante de ", z.capitalize(), "es: ", vida(roll, pokemon_z))

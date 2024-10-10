@@ -8,19 +8,11 @@ from pokemon import *
 from calculadora import*
 from bd import *
 
-# Configuración de Twilio
-#ACCOUNT_SID = ''#vacio por que no me deja hacer commit si no
-#AUTH_TOKEN = ''
-#TWILIO_PHONE_NUMBER = ''
-#twilio_client = Client(ACCOUNT_SID, AUTH_TOKEN)
 
-# Conectar a la base de datos
-# Constantes
 print("Bienvenido al Simulador")
-continuar = 1
 
 def menu_principal():
-    while True:
+    while True:#menu principal
         print("\nMenu Principal:")
         print("1. Crear Usuario")
         print("2. Iniciar Sesión")
@@ -28,7 +20,7 @@ def menu_principal():
         print("0. Salir")
 
         opcion = input("Seleccione una opción: ")
-        if opcion == "1":
+        if opcion == "1":#Inputs y llamado de la funcion de crear usario
             nombre = input("Ingrese su nombre: ")
             correo = input("Ingrese su correo: ")
             contrasena = input("Ingrese su contraseña: ")
@@ -37,8 +29,8 @@ def menu_principal():
             usuario.crear_usuario()
         elif opcion == "2":
             nombre_usuario = Usuario.iniciar_sesion()
-            if nombre_usuario:
-                while True:
+            if nombre_usuario:#validacion de usuario
+                while True:#submenu al estar logeado
                     print("\nMenu de Usuario:")
                     print("1. Modificar Usuario")
                     print("2. Eliminar Usuario")
@@ -48,7 +40,7 @@ def menu_principal():
                     opcion_usuario = input("Seleccione una opción: ")
                     if opcion_usuario == "1":
                         mod=Usuario.modificar_usuario(nombre_usuario)
-                        if mod:
+                        if mod:#comprobacion de si el nombre fue cambiado para volver al menu anterior
                             break
                     elif opcion_usuario == "2":
                         Usuario.eliminar_usuario(nombre_usuario)
