@@ -95,10 +95,6 @@ def procesar_directorio(directorio):
         if nombre_archivo.endswith('.py'):
             ruta_archivo = os.path.join(directorio, nombre_archivo)
 
-            if nombre_archivo == 'moves.py':  
-                print(f'Ignorando el archivo: {nombre_archivo}')
-                continue
-
             # Calcular métricas
             complejidad_resultados = calcular_complejidad_ciclomatica(ruta_archivo)
             longitud_resultados = analizar_longitud_codigo(ruta_archivo)
