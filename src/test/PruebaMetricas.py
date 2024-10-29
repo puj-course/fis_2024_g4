@@ -2,7 +2,6 @@ import os
 import ast
 from radon.complexity import cc_visit
 from radon.raw import analyze
-from radon.metrics import mi_visit
 
 directorio = os.path.join(os.path.dirname(__file__), '..', '..', 'src', 'main')
 
@@ -21,12 +20,32 @@ def analizar_longitud_codigo(ruta_archivo):
     return (analisis.loc, analisis.lloc, analisis.comments)
 
 # Función para calcular la profundidad de anidado
-def calcular_profundidad_anidado(ruta_archivo):
-    with open(ruta_archivo, 'r', encoding='utf-8') as f:
-        contenido = f.read()
-        profundidad = mi_visit(contenido, multi=False)
-    return int(profundidad)
+def calcular_profundidad_anidado(archivo):
+    with open(archivo, 'r') as f:
+        lineas = f.readlines()
 
+    profundidad_maxima = 0
+    profundidad_actual = 0
+
+    for linea in lineas:
+        # Ignorar líneas vacías
+        if not linea.strip():
+            continue
+
+        # Contar el nivel de indentación
+        nivel_indentacion = len(linea) - len(linea.lstrip(' \t'))
+
+        # Comprobar si la línea es un bloque de código
+        if linea.strip().startswith(('def ', 'class ', 'if ', 'for ', 'while ', 'with ', 'try:', 'else:', 'elif ', 'except ')):
+            # Actualizar la profundidad actual
+            profundidad_actual = (nivel_indentacion // 4) + 1  # Suponiendo 4 espacios por nivel de indentación
+            profundidad_maxima = max(profundidad_maxima, profundidad_actual)
+        else:
+            # Resetear si encontramos un bloque que no crea nueva profundidad
+            if nivel_indentacion < profundidad_actual * 4:
+                profundidad_actual = (nivel_indentacion // 4) + 1
+
+    return profundidad_maxima
 # Función para calcular fan-in y fan-out
 def calcular_fan_in_out(ruta_archivo):
     with open(ruta_archivo, 'r', encoding='utf-8') as f:
@@ -94,7 +113,6 @@ def procesar_directorio(directorio):
     for nombre_archivo in os.listdir(directorio):
         if nombre_archivo.endswith('.py'):
             ruta_archivo = os.path.join(directorio, nombre_archivo)
-
             # Calcular métricas
             complejidad_resultados = calcular_complejidad_ciclomatica(ruta_archivo)
             longitud_resultados = analizar_longitud_codigo(ruta_archivo)
