@@ -105,7 +105,7 @@ def procesar_directorio(directorio):
     total_lineas_codigo = 0
     total_lineas_ejecutables = 0
     total_lineas_comentarios = 0
-    total_profundidad_anidado = 0
+    anidado_mayor = 0
     total_fan_in = 0
     total_fan_out = 0
     total_identificadores = 0
@@ -141,7 +141,8 @@ def procesar_directorio(directorio):
             total_lineas_codigo += longitud_resultados[0]
             total_lineas_ejecutables += longitud_resultados[1]
             total_lineas_comentarios += longitud_resultados[2]
-            total_profundidad_anidado += profundidad_resultados
+            if(profundidad_resultados>anidado_mayor):
+                anidado_mayor=profundidad_resultados
 
             # Sumar valores de fan_in si es un diccionario
             if isinstance(fan_in, dict):
@@ -160,7 +161,7 @@ def procesar_directorio(directorio):
     print(f"Líneas totales de código: {total_lineas_codigo}")
     print(f"Líneas de código ejecutables: {total_lineas_ejecutables}")
     print(f"Líneas de comentarios: {total_lineas_comentarios}")
-    print(f"Profundidad de anidado total: {total_profundidad_anidado}")
+    print(f"Profundidad de Mayor profundidad de anidado : {anidado_mayor}")
     print(f"Fan-in total: {total_fan_in}")
     print(f"Fan-out total: {total_fan_out}")
     print(f"Total de identificadores: {total_identificadores}")
