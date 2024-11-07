@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Batalla Pokémon</title>
+</head>
+<body>
+    <h1>Simulador de Batalla Pokémon</h1>
+    
+    <form method="POST">
+        {% csrf_token %}
+        
+        <label for="pokemon_y">Selecciona el primer Pokémon:</label>
+        <input type="text" name="pokemon_y" id="pokemon_y" required>
+        
+        <br><br>
+
+        <label for="pokemon_z">Selecciona el segundo Pokémon:</label>
+        <input type="text" name="pokemon_z" id="pokemon_z" required>
+        
+        <br><br>
+
+        <label for="move">Selecciona el movimiento a ejecutar:</label>
+        <input type="number" name="move" id="move" required min="0">
+        
+        <br><br>
+        
+        <button type="submit">Simular Batalla</button>
+    </form>
+
+    {% if pokemon_y %}
+    <h2>Resultado de la Batalla</h2>
+    <p><strong>{{ pokemon_y }} ha atacado a {{ pokemon_z }}!</strong></p>
+    <p>El daño infligido por {{ pokemon_y }} es: {{ roll }}</p>
+    <p>La vida restante de {{ pokemon_z }} es: {{ vida_restante }}</p>
+
+    <h3>Estadísticas de {{ pokemon_y }}:</h3>
+    <ul>
+        <li>HP: {{ pokemon_y_stats.0 }}</li>
+        <li>Atack: {{ pokemon_y_stats.1 }}</li>
+        <li>Defensa: {{ pokemon_y_stats.2 }}</li>
+        <li>Ataque especial: {{ pokemon_y_stats.3 }}</li>
+        <li>Defensa especial: {{ pokemon_y_stats.4 }}</li>
+        <li>Velocidad: {{ pokemon_y_stats.5 }}</li>
+    </ul>
+
+    <h3>Estadísticas de {{ pokemon_z }}:</h3>
+    <ul>
+        <li>HP: {{ pokemon_z_stats.0 }}</li>
+        <li>Atack: {{ pokemon_z_stats.1 }}</li>
+        <li>Defensa: {{ pokemon_z_stats.2 }}</li>
+        <li>Ataque especial: {{ pokemon_z_stats.3 }}</li>
+        <li>Defensa especial: {{ pokemon_z_stats.4 }}</li>
+        <li>Velocidad: {{ pokemon_z_stats.5 }}</li>
+    </ul>
+    {% endif %}
+</body>
+</html>

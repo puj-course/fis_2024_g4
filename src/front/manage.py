@@ -3,7 +3,13 @@
 import os
 import sys
 
+# Asegúrate de que esta línea esté antes de cualquier importación
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'src'))
 
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'front.settings')
+from django.core.management import execute_from_command_line
+
+execute_from_command_line(sys.argv)
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'front.settings')
