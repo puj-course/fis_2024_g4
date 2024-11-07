@@ -1,0 +1,19 @@
+<!-- simulador/menu.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú Principal</title>
+</head>
+<body>
+    <h1>Bienvenido al Simulador</h1>
+    <form method="post">
+        {% csrf_token %}
+        <h2>Selecciona una opción:</h2>
+        <button type="submit" name="opcion" value="1">Crear Usuario</button>
+        <button type="submit" name="opcion" value="2">Iniciar Sesión</button>
+        <button type="submit" name="opcion" value="3">Simular Batalla</button>
+    </form>
+</body>
+</html>
